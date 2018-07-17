@@ -1,22 +1,35 @@
 # sfs
 
-Ideas: 
-Linear Algebra solving software
-possible features:
-  - solve Matrix Multiplication
-  - solve linear equations
+Text-based Adventure game
+-Setting: Zombie Apocalypse, Ruined City
+-Language: Java
+
+-Features:
+
+  -Open World
+      -Limited to 1 city (for now)
+      
+  -Fightingsystem
+      -Turn based, stat check
+      
+  -Scavenge-system
+      -User finds items in room
+      -Unlimited Items (for now)
+      -Items limited to healing, weapons and ammunition
+      
+  -Survey-system: 
+      -Room info
+      -Neighbouring room info
+      
+  -Tile-environment-system: 
+      -Premade rooms with attribute deciding status of room
+      -Attribute gives room a fixed pool of enemies, items and environment to draw from
+      -Every tile can have custom modifications that add to or override the attribute
+      
+  -Tile-movement-system: 
+      -Based on rooms
+      -Movement between rooms
   
-Minecraft mod
-
-game using Pygame library
-  - Player is ball, bombs drop from top of screen, Player has to dodge bombs and get deeper by falling down the holes which where created by the bombs.
-
-software to compare different offers and discounts from grocery-stores
-  -problem: how to fetch offers from different vendors?
-  -possible solution: let users report offers
-  
-
-
 
 
  
