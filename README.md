@@ -48,6 +48,7 @@ Text-based Adventure game
       
   
 Dependencies: https://sourceforge.net/projects/naturalcli/files/ for command line interpretation
+				http://naturalcli.sourceforge.net/examples.html some usage examples
 
  
  

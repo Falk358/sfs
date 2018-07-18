@@ -16,7 +16,7 @@ public class Tile {
         this.room_info=room_info;
     }
     
-    private String room_info;
+    private String room_info; //information to be displayed when inspecting the room
     private Tile tile_north;
     private Tile tile_south;
     private Tile tile_west;

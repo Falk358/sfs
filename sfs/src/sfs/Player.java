@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package sfs;
-
+import java.util.HashSet;
+import java.util.Set;
+import  org.naturalcli.*;
 /**
  *
  * @author Max
@@ -23,27 +25,65 @@ public class Player {
         this.base_attack=5;
     }
     
-    public void changeRoom(Direction dir)
+   
+    
+    public boolean changeRoom(Direction dir)
     {
         switch(dir)
         {
             case NORTH:
-                this.current_tile=this.current_tile.getTile_north();
-                break;
-            
+                if (this.current_tile.getTile_north()!=null)
+                {
+                    this.current_tile=this.current_tile.getTile_north();
+                    return true;
+                }
+                else
+                {
+                    System.err.println("no tile north of here");
+                    return false;
+                }
+                
             case SOUTH:
-                this.current_tile=this.current_tile.getTile_south();
-                break;
+                if (this.current_tile.getTile_south()!=null)
+                {
+                    this.current_tile=this.current_tile.getTile_south();
+                    return true;
+                }
+                else
+                {
+                    System.err.println("no tile south of here");
+                    return false;
+                }
+               
             case WEST:
-                this.current_tile=this.current_tile.getTile_west();
-                break;
+                if (this.current_tile.getTile_west()!=null)
+                {
+                    this.current_tile=this.current_tile.getTile_west();
+                    return true;
+                }
+                else
+                {
+                    System.err.println("no tile west of here");
+                    return false;
+                }
+              
             case EAST: 
-                this.current_tile=this.current_tile.getTile_east();
-                break;
+                if (this.current_tile.getTile_east()!=null)
+                {
+                    this.current_tile=this.current_tile.getTile_east();
+                    return true;
+                }
+                else
+                {
+                    System.err.println("no tile east of here");
+                    return false;
+                }
+               
                 
             default:
                 System.err.println("enum type " + dir + "not valid");
-        }
+                return false;
+           }
     }
     
     
