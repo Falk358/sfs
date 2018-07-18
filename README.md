@@ -47,7 +47,7 @@ Text-based Adventure game
       -Movement between rooms
       
   
-
+Dependencies: https://sourceforge.net/projects/naturalcli/files/ for command line interpretation
 
  
  
