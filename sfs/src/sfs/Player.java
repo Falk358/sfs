@@ -10,23 +10,24 @@ import  org.naturalcli.*;
 /**
  *
  * @author Max
+ * entity representing the player
  */
 public class Player {
-    private int health; //starting value
+    private int health; 
     private int base_attack;
 
-    private Tile current_tile;
+    private Tile current_tile; //the tile where the player is located
 
     
     public Player(Tile starting_tile)
     {
         this.current_tile=starting_tile;
-        this.health=100;
-        this.base_attack=5;
+        this.health=100;//starting value
+        this.base_attack=5;//starting value
     }
     
    
-    
+    // this function is called when the player should switch rooms. it returns true on success, false if something went wrong. 
     public boolean changeRoom(Direction dir)
     {
         switch(dir)

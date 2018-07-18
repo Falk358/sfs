@@ -17,6 +17,8 @@ public class Tile {
     }
     
     private String room_info; //information to be displayed when inspecting the room
+    
+    //pointers to the neighbouring tiles
     private Tile tile_north;
     private Tile tile_south;
     private Tile tile_west;

@@ -8,6 +8,7 @@ package sfs;
 /**
  *
  * @author Max
+ * enum containing all accessible directions
  */
 public enum Direction {
     NORTH,SOUTH,WEST, EAST;

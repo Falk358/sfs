@@ -15,6 +15,7 @@ public class Main {
 
     /**
      * @param args the command line arguments
+     * this is the logic to execute the go command. Probabk´ly should be put into separate class
      */
     public static void main(String[] args) {
         Tile tile1 =new Tile("test room");
