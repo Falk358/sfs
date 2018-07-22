@@ -23,13 +23,13 @@ public class Game {
     
     private Set<Command> cs = new HashSet<Command>();
     
-    private Command goCommand;
-    
     private Player player;
     
     public Game(Player player)
     {
         this.player=player;
+        Command goCommand;
+        Command inspectCommand;
         try
         {
             /*initialize Commands with help messages and functionality and add them to the set of commands*/
@@ -59,8 +59,20 @@ public class Game {
                           System.out.println("going " + result);
                   }
                 });
+             inspectCommand=new Command("inspect", "command to inspect Tile the player is on",
+                     new ICommandExecutor ()
+                     {
+                         public void execute(ParseResult pr)
+                         {
+                             Tile myTile;
+                             myTile=player.getCurrent_tile();
+                             myTile.printRoomInfo();
+                         }
+                     });
+                     
              // add the command goCommand to the total list of commands
              cs.add(goCommand);
+             cs.add(inspectCommand);
         }
         catch (InvalidSyntaxException e)
         {
@@ -84,9 +96,10 @@ public class Game {
                 /*parse the argument and execute the correct code if defined in a Command*/
                 natcli.execute(arg);
             }
+            
             catch (ExecutionException e)
             {
-                e.printStackTrace();
+                System.err.println("command not defined");
             }
             
         }
