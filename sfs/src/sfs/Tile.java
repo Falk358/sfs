@@ -27,7 +27,25 @@ public class Tile {
     
     public void printRoomInfo()
     {
-        System.out.println(room_info);
+        String room_info_buff=room_info;
+        room_info_buff=room_info_buff+"There are paths in the following directions:";
+        if(tile_north!=null)
+        {
+            room_info_buff=room_info_buff+" NORTH";
+        }
+        if(tile_east!=null)
+        {
+            room_info_buff=room_info_buff+" EAST";
+        }
+        if(tile_south!=null)
+        {
+            room_info_buff=room_info_buff+" SOUTH";
+        }
+        if(tile_west!=null)
+        {
+            room_info_buff=room_info_buff+" WEST";
+        }
+        System.out.println(room_info_buff);
     }
     
     
