@@ -64,6 +64,7 @@ public class Game {
                      {
                          public void execute(ParseResult pr)
                          {
+                             //creation of buffer Tile variable which saves the details of current tile and then uses the printRoomInfo command to display room info
                              Tile myTile;
                              myTile=player.getCurrent_tile();
                              myTile.printRoomInfo();

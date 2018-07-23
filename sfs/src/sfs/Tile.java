@@ -24,13 +24,16 @@ public class Tile {
     private Tile tile_west;
     private Tile tile_east;
     
-    
+    //checks for room_info and adjacent Tiles; then prints RoomInfo and possible directions to move to
     public void printRoomInfo()
     {
+        //checks for string written into room_info and adds it into a buffer string
         String room_info_buff=room_info;
         room_info_buff=room_info_buff+"\nThere are paths in the following directions:";
+        //if condition checking whether adjacent tiles are empty via boolean condition
         if(tile_north!=null)
         {
+            //if tile is adjacent, adds a string to the buffer string displaying a direction in which a tile has been confirmed
             room_info_buff=room_info_buff+" NORTH";
         }
         if(tile_east!=null)
