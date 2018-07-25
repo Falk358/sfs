@@ -13,7 +13,7 @@ public class MapBuilder {
     
     
     /* sets variables so that connection is displayed both ways in tiles
-    if is_north_south: tile1 is the northern tile and tile2 the southern else: tile1 is western, tile2 eastern*/
+    if is_north_south: tile1 is the northern tile and tile2 the southern if is north_south is false: tile1 is western, tile2 eastern*/
     public static void linkByDirection(Tile tile1, Tile tile2, boolean is_north_south)
     {
         if (is_north_south)
