@@ -11,3 +11,12 @@ SFSZG/nbproject/
 SFSZG/manifest\.mf
 
 SFSZG/build\.xml
+/sfs/sfs/nbproject/private/
+/sfs/sfs/build/
+sfs/sfs/build\.xml
+
+sfs/sfs/manifest\.mf
+
+sfs/sfs/nbproject/build-impl\.xml
+
+sfs/sfs/nbproject/
