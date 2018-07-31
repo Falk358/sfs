@@ -28,4 +28,19 @@ public class MapBuilder {
         }
     }
     
+    
+    //creates a map shaped like a 2x2 square. Returns starting tile.
+    public static Tile squareDummyMap()
+    {
+        Tile starting =new Tile("test room starting tile");
+        Tile tile2 =new Tile("test room 2");
+        Tile tile3 =new Tile("test room 3");
+        Tile tile4 =new Tile("test room 4");
+        linkByDirection(starting, tile2, false);
+        linkByDirection(tile3, tile4, false);
+        linkByDirection(tile2, tile4, true);
+        linkByDirection(starting, tile3, true);
+        return starting;
+    }
+    
 }
