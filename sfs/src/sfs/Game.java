@@ -16,6 +16,7 @@ import org.naturalcli.NaturalCLI;
 import org.naturalcli.ParseResult;
 
 import sfs.entities.Player;
+import sfs.items.Item;
 
 /**
  *
@@ -32,6 +33,7 @@ public class Game {
         this.player=player;
         Command goCommand;
         Command inspectCommand;
+        Command pickUpCommand;
         try
         {
             /*initialize Commands with help messages and functionality and add them to the set of commands*/
@@ -72,10 +74,25 @@ public class Game {
                              myTile.printRoomInfo();
                          }
                      });
+             
+             pickUpCommand = new Command("pickup", "command to pick up the first item from the tile the player is standing at.", 
+            		 					r -> {
+            		 						if( player.pickUpItem() )
+            		 						{
+            		 							/* the just picked up item. Short naming due to more readable next line. */
+            		 							Item i = player.getLastItem();
+            		 							System.out.println( "Successfully picked up " + i.getName() + "!\n" + i.getDescription() );
+            		 						}
+            		 						else
+            		 						{
+            		 							System.err.println( "There is no more item on this tile\n" );
+            		 						}
+            		 					} );
                      
              // add the command goCommand to the total list of commands
              cs.add(goCommand);
              cs.add(inspectCommand);
+             cs.add( pickUpCommand );
         }
         catch (InvalidSyntaxException e)
         {
@@ -90,7 +107,7 @@ public class Game {
         // creates the executor and scanner to take input from command line an interpret it
         NaturalCLI natcli =new NaturalCLI(cs);
         Scanner scanner =new Scanner(System.in);
-        while (true)
+        while( player.getHealth() > 0 )
         {
             // retrieve next argument entered by user
             String arg= scanner.nextLine();

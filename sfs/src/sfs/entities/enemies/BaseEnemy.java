@@ -41,9 +41,7 @@ public class BaseEnemy extends Entity {
 			IWeapon randomWeapon = (IWeapon) weapons.get( random.nextInt( weapons.size() ) );
 		
 			/* Attack with the weapon */
-			List<Entity> targetEntites = new ArrayList<Entity>();
-			targetEntites.add( entity );
-			randomWeapon.attack( targetEntites );
+			randomWeapon.attack( entity );
 		}
 	}
 

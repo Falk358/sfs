@@ -7,8 +7,10 @@ package sfs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import sfs.entities.Entity;
+import sfs.items.Item;
 
 /**
  *
@@ -16,13 +18,15 @@ import sfs.entities.Entity;
  */
 public class Tile {
     
-    public Tile(String room_info)
-    {
-        this.room_info=room_info;
-        this.entitiesOnTile = new ArrayList<Entity>();
-    }
-    
+    /**
+     * List of all entities on that tile.
+     */
     private List<Entity> entitiesOnTile;
+    
+    /**
+     * List of all items on that tile.
+     */
+    private List<Item> itemsOnTile;
     
     private String room_info; //information to be displayed when inspecting the room
     
@@ -31,6 +35,14 @@ public class Tile {
     private Tile tile_south;
     private Tile tile_west;
     private Tile tile_east;
+    
+
+    public Tile(String room_info)
+    {
+        this.room_info=room_info;
+        this.entitiesOnTile = new ArrayList<Entity>();
+        this.itemsOnTile = new ArrayList<Item>();
+    }
     
     //checks for room_info and adjacent Tiles; then prints RoomInfo and possible directions to move to
     public void printRoomInfo()
@@ -56,6 +68,12 @@ public class Tile {
         {
             room_info_buff=room_info_buff+" WEST";
         }
+        
+        if( itemsOnTile.isEmpty() )
+        	room_info_buff += "\nThere doesn't seem to be anything interesting.";
+        else
+        	room_info_buff += "\nThe following items are on this tile:\n" + itemsOnTile.stream().map(Item::getName).collect( Collectors.joining( "\n" ) );
+        
         System.out.println(room_info_buff);
     }
     
@@ -103,8 +121,35 @@ public class Tile {
         this.tile_east = tile_east;
     }
     
-    public List<Entity> getEntitiesOnTile()
+    public void removeEntityFromTile( Entity entity )
+    {
+    	if( entitiesOnTile.contains( entity ) )
+    		entitiesOnTile.remove( entity );
+    }
+    
+    public void addEntityToTile( Entity entity )
+    {
+    	entitiesOnTile.add( entity );
+    }
+    
+    public List<Entity> getAllEntitesFromTile()
     {
     	return entitiesOnTile;
+    }
+    
+    public List<Item> getAllItemsFromTile()
+    {
+    	return itemsOnTile;
+    }
+    
+    public void addItemToTile( Item item )
+    {
+    	itemsOnTile.add( item );
+    }
+    
+    public void removeItemFromTile( Item item )
+    {
+    	if( itemsOnTile.contains( item ) )
+    		itemsOnTile.remove( item );
     }
 }

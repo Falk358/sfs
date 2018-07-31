@@ -21,7 +21,7 @@ public abstract class Entity {
 		this.items = new ArrayList<Item>();
 		
 		/* Add the entity to the tile */
-		this.location.getEntitiesOnTile().add( this );
+		this.location.addEntityToTile( this );
 		/* Add the entity to the list of all entites */
 		Init.ALL_ENTITES.add( this );
 	}
@@ -62,6 +62,20 @@ public abstract class Entity {
 	 * 		The attack damage of the other entity.
 	 */
 	public abstract void handleAttack( int damage );
+	
+	/**
+	 * Picks up the given item from the current location.
+	 * This method also updates the references in the item itself.
+	 * 
+	 * @param item
+	 * 		The item that should be picked up.
+	 */
+	public void pickUpItem( Item item )
+	{
+		location.removeItemFromTile( item );
+		items.add( item );
+		item.setOwner( this );
+	}
 
 	public int getHealth() 
 	{
@@ -78,11 +92,17 @@ public abstract class Entity {
 		return location;
 	}
 	
+	/**
+	 * Sets the new location and updates the entity list of the tile.
+	 * 
+	 * @param location
+	 * 		The new location.
+	 */
 	protected void setLocation(Tile location)
 	{
-		this.location.getEntitiesOnTile().remove( this );
+		this.location.removeEntityFromTile( this );
 		this.location = location;
-		this.location.getEntitiesOnTile().add( this );
+		this.location.addEntityToTile( this );
 	}
 	
 	public List<Item> getItems()

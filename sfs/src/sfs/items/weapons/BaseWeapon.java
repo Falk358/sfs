@@ -1,8 +1,5 @@
 package sfs.items.weapons;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import sfs.entities.Entity;
 import sfs.items.Item;
 import sfs.items.interfaces.IWeapon;
@@ -29,7 +26,7 @@ public class BaseWeapon extends Item implements IWeapon {
 	 */
 	public BaseWeapon( int attackDamage, Entity owner )
 	{
-		this( attackDamage, "No description available", "No name", owner );
+		this( attackDamage, "No name", "No description available", owner );
 	}
 	
 	/**
@@ -54,27 +51,18 @@ public class BaseWeapon extends Item implements IWeapon {
 	
 	/**
 	 * Simple implementation of the attack functionality.
-	 * Iterates over every entity in the list and attacks it. if the entity
-	 * gets damaged true is added to the list.
 	 * 
 	 * For more complex implementations extend BaseWeapon and override
 	 * the attack method.
 	 */
 	@Override
-	public List<Boolean> attack( List<Entity> targetEntities ) 
+	public boolean attack( Entity targetEntity ) 
 	{
-		List<Boolean> success = new ArrayList<Boolean>();
+		int entityHealthBefore = targetEntity.getHealth();
+		targetEntity.handleAttack( this.attackDamage );
 		
-		for( Entity e : targetEntities )
-		{
-			int currentEntityHealth = e.getHealth();
-			e.handleAttack( this.attackDamage );
-		
-			/* Look up if damage was successfully dealt. */
-			success.add( e.getHealth() < currentEntityHealth );
-		}
-		
-		return success;
+		/* Look up if damage was successfully dealt. */
+		return targetEntity.getHealth() < entityHealthBefore;
 	}
 	
 	/**

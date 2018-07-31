@@ -10,12 +10,11 @@ import sfs.entities.Entity;
 public interface IWeapon {
 
 	/**
-	 * @param targetEntities
-	 * 		The entities that get attacked.
+	 * @param targetEntity
+	 * 		The entity that gets attacked.
 	 * @return
-	 * 		A list of boolean values that describe if the targetEntity was successfully
-	 * 		attacked.
+	 * 		True if the targetEntity took damage.
 	 */
-	public List<Boolean> attack( List<Entity> targetEntities );
+	public boolean attack( Entity targetEntity );
 	
 }

@@ -59,7 +59,7 @@ public abstract class Item {
 		return owner;
 	}
 	
-	protected void setOwner( Entity owner )
+	public void setOwner( Entity owner )
 	{
 		this.owner = owner;
 	}

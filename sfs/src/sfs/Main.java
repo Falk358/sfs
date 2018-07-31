@@ -10,6 +10,7 @@ import  org.naturalcli.*;
 
 import sfs.entities.Player;
 import sfs.entities.enemies.BaseEnemy;
+import sfs.items.weapons.BaseWeapon;
  
 /*
  * @author Max
@@ -30,6 +31,8 @@ public class Main {
         tile3.setTile_west(tile1);
         Player player =new Player(tile1);
         BaseEnemy be = new BaseEnemy(100, 0, tile3);
+        BaseWeapon bw = new BaseWeapon( 1, null );
+        tile2.addItemToTile( bw );
         Game game=new Game(player);
         game.start();
     }

@@ -4,20 +4,17 @@
  * and open the template in the editor.
  */
 package sfs.entities;
-import java.util.HashSet;
-import java.util.Set;
-import  org.naturalcli.*;
-
 import sfs.Direction;
 import sfs.Tile;
+import sfs.items.Item;
 /**
  *
  * @author Max
  * entity representing the player
  */
 public class Player extends Entity {
-    
-    public Player(Tile starting_tile)
+	
+	public Player(Tile starting_tile)
     {
     	/*  health, attack damage, location */
     	super( 100, 5, starting_tile );
@@ -86,10 +83,9 @@ public class Player extends Entity {
     
     private void checkForEncounters()
     {
-    	if( this.location.getEntitiesOnTile().size() > 1 )
+    	if( this.location.getAllEntitesFromTile().size() > 1 )
     		System.err.println("There is another entity on this tile\n");
     }
-    
     
     //getters and setters
     public Tile getlocation() {
@@ -114,15 +110,60 @@ public class Player extends Entity {
 	@Override
 	public void attackEntity( Entity entity ) 
 	{
-		
+		throw new UnsupportedOperationException("Not implemented yet.");
 	}
 
 
 	@Override
 	public void handleAttack(int damage) 
 	{
+		setHealth( getHealth() - damage );
+	}
+	
+	/**
+	 * Uses the item at the given index.
+	 * 
+	 * @param index
+	 * 		The index of the item in the items list of the player.
+	 * @return
+	 * 		if the index is out of range false is returned otherwise true will be returned.
+	 */
+	public boolean useItem( int index )
+	{
+		if( items.size() >= index || index < 0 )
+		{
+			System.err.println("Item number is invalid\n");
+			return false;
+		}
 		
+		Item searchedItem = items.get( index );
+		return true;
+	}
+	
+	/**
+	 * Takes the first item from the tile.
+	 * 
+	 * @return
+	 * 		True if an item could be picked up otherwise false.
+	 */
+	public boolean pickUpItem()
+	{
+		if( location.getAllItemsFromTile().isEmpty() )
+			return false;
+		
+		Item pickedUpItem = location.getAllItemsFromTile().get( 0 );
+		super.pickUpItem( pickedUpItem );
+		
+		return true;
 	}
     
+	/**
+	 * @return
+	 * 		The last item of the player or null if the player has no items.
+	 */
+	public Item getLastItem()
+	{
+		return items.isEmpty() ? null : items.get( items.size() - 1 );
+	}
     
 }
