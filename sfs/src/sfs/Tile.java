@@ -5,6 +5,11 @@
  */
 package sfs;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import sfs.entities.Entity;
+
 /**
  *
  * @author Max
@@ -14,7 +19,10 @@ public class Tile {
     public Tile(String room_info)
     {
         this.room_info=room_info;
+        this.entitiesOnTile = new ArrayList<Entity>();
     }
+    
+    private List<Entity> entitiesOnTile;
     
     private String room_info; //information to be displayed when inspecting the room
     
@@ -95,5 +103,8 @@ public class Tile {
         this.tile_east = tile_east;
     }
     
-    
+    public List<Entity> getEntitiesOnTile()
+    {
+    	return entitiesOnTile;
+    }
 }

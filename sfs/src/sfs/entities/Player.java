@@ -3,27 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sfs;
+package sfs.entities;
 import java.util.HashSet;
 import java.util.Set;
 import  org.naturalcli.*;
+
+import sfs.Direction;
+import sfs.Tile;
 /**
  *
  * @author Max
  * entity representing the player
  */
-public class Player {
-    private int health; 
-    private int base_attack;
-
-    private Tile current_tile; //the tile where the player is located
-
+public class Player extends Entity {
     
     public Player(Tile starting_tile)
     {
-        this.current_tile=starting_tile;
-        this.health=100;//starting value
-        this.base_attack=5;//starting value
+    	/*  health, attack damage, location */
+    	super( 100, 5, starting_tile );
     }
     
    
@@ -33,9 +30,9 @@ public class Player {
         switch(dir)
         {
             case NORTH:
-                if (this.current_tile.getTile_north()!=null)
+                if (this.location.getTile_north()!=null)
                 {
-                    this.current_tile=this.current_tile.getTile_north();
+                    setLocation( this.location.getTile_north() );
                     return true;
                 }
                 else
@@ -45,9 +42,9 @@ public class Player {
                 }
                 
             case SOUTH:
-                if (this.current_tile.getTile_south()!=null)
+                if (this.location.getTile_south()!=null)
                 {
-                    this.current_tile=this.current_tile.getTile_south();
+                    setLocation( this.location.getTile_south() );
                     return true;
                 }
                 else
@@ -57,9 +54,9 @@ public class Player {
                 }
                
             case WEST:
-                if (this.current_tile.getTile_west()!=null)
+                if (this.location.getTile_west()!=null)
                 {
-                    this.current_tile=this.current_tile.getTile_west();
+                    setLocation( this.location.getTile_west() );
                     return true;
                 }
                 else
@@ -69,9 +66,9 @@ public class Player {
                 }
               
             case EAST: 
-                if (this.current_tile.getTile_east()!=null)
+                if (this.location.getTile_east()!=null)
                 {
-                    this.current_tile=this.current_tile.getTile_east();
+                    setLocation( this.location.getTile_east() );
                     return true;
                 }
                 else
@@ -87,37 +84,45 @@ public class Player {
            }
     }
     
-    
-    
-    
-    
+    private void checkForEncounters()
+    {
+    	if( this.location.getEntitiesOnTile().size() > 1 )
+    		System.err.println("There is another entity on this tile\n");
+    }
     
     
     //getters and setters
-    public Tile getCurrent_tile() {
-        return current_tile;
+    public Tile getlocation() {
+        return location;
     }
 
-    public void setCurrent_tile(Tile current_tile) {
-        this.current_tile = current_tile;
-    }
-    
-    
-    public int getHealth() {
-        return health;
+    @Override
+    public void setLocation(Tile location) 
+    {
+    	if( this.location != location )
+    	{
+    		super.setLocation( location );
+    		checkForEncounters();
+    	}
     }
 
-    public void setHealth(int health) {
+    public void setHealth(int health) 
+    {
         this.health = health;
     }
 
-    public int getBase_attack() {
-        return base_attack;
-    }
+	@Override
+	public void attackEntity( Entity entity ) 
+	{
+		
+	}
 
-    public void setBase_attack(int base_attack) {
-        this.base_attack = base_attack;
-    }
+
+	@Override
+	public void handleAttack(int damage) 
+	{
+		
+	}
     
     
 }

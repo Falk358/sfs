@@ -15,6 +15,8 @@ import org.naturalcli.InvalidSyntaxException;
 import org.naturalcli.NaturalCLI;
 import org.naturalcli.ParseResult;
 
+import sfs.entities.Player;
+
 /**
  *
  * @author Max
@@ -66,7 +68,7 @@ public class Game {
                          {
                              //creation of buffer Tile variable which saves the details of current tile and then uses the printRoomInfo command to display room info
                              Tile myTile;
-                             myTile=player.getCurrent_tile();
+                             myTile=player.getLocation();
                              myTile.printRoomInfo();
                          }
                      });

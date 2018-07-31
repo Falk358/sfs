@@ -7,6 +7,9 @@ package sfs;
 import java.util.HashSet;
 import java.util.Set;
 import  org.naturalcli.*;
+
+import sfs.entities.Player;
+import sfs.entities.enemies.BaseEnemy;
  
 /*
  * @author Max
@@ -26,6 +29,7 @@ public class Main {
         tile1.setTile_east(tile3);
         tile3.setTile_west(tile1);
         Player player =new Player(tile1);
+        BaseEnemy be = new BaseEnemy(100, 0, tile3);
         Game game=new Game(player);
         game.start();
     }
