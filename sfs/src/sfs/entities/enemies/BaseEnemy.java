@@ -1,8 +1,6 @@
 package sfs.entities.enemies;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -48,7 +46,22 @@ public class BaseEnemy extends Entity {
 	@Override
 	public void handleAttack(int damage) 
 	{
-		this.health -= damage;
+		setHealth( getHealth() - damage );
+	}
+
+	/**
+	 * On death the enemy drops a random item if it has one.
+	 */
+	@Override
+	public void onDeath() 
+	{
+		if( !items.isEmpty() )
+		{
+			Random rand = new Random();
+			location.addItemToTile( items.get( rand.nextInt( items.size() ) ) );
+		}
+		
+		location.removeEntityFromTile( this );
 	}
 
 }

@@ -14,4 +14,10 @@ public interface IUsable {
 	 * 		True if the item was successfully used.
 	 */
 	public boolean useItem( Entity targetEntity );
+	
+	/**
+	 * @return
+	 * 		The number of uses of this item.
+	 */
+	public int getNumberOfUses();
 }

@@ -4,9 +4,16 @@
  * and open the template in the editor.
  */
 package sfs.entities;
+import static org.hamcrest.CoreMatchers.instanceOf;
+
+import java.util.stream.Collectors;
+
 import sfs.Direction;
 import sfs.Tile;
+import sfs.encounters.Encounters;
 import sfs.items.Item;
+import sfs.items.interfaces.IUsable;
+import sfs.items.interfaces.IWeapon;
 /**
  *
  * @author Max
@@ -84,7 +91,12 @@ public class Player extends Entity {
     private void checkForEncounters()
     {
     	if( this.location.getAllEntitesFromTile().size() > 1 )
-    		System.err.println("There is another entity on this tile\n");
+    	{
+    		System.err.println("There is another entity on this tile");
+    		for( Entity e : location.getAllEntitesFromTile() )
+    			if( !e.equals( this ) )
+    				Encounters.addEncounter( this, e );
+    	}
     }
     
     //getters and setters
@@ -102,15 +114,16 @@ public class Player extends Entity {
     	}
     }
 
-    public void setHealth(int health) 
-    {
-        this.health = health;
-    }
-
+    /**
+     * Attacks the target entity with the base attack.
+     */
 	@Override
-	public void attackEntity( Entity entity ) 
+	public void attackEntity( Entity targetEntity ) 
 	{
-		throw new UnsupportedOperationException("Not implemented yet.");
+		int enemyHealthDiff = targetEntity.getHealth();
+		targetEntity.handleAttack( attackDamage );
+		enemyHealthDiff -= targetEntity.getHealth();
+		System.out.println("The enemy took " + enemyHealthDiff + " damage. Enemy current life: " + targetEntity.getHealth() );
 	}
 
 
@@ -122,21 +135,32 @@ public class Player extends Entity {
 	
 	/**
 	 * Uses the item at the given index.
+	 * If the item is a weapon it attacks with the weapon.
+	 * If the item is a usable it uses the item
 	 * 
 	 * @param index
 	 * 		The index of the item in the items list of the player.
+	 * @param targetEntity
+	 * 		The target of the item.
 	 * @return
 	 * 		if the index is out of range false is returned otherwise true will be returned.
 	 */
-	public boolean useItem( int index )
+	public boolean useItem( int index, Entity targetEntity )
 	{
 		if( items.size() >= index || index < 0 )
 		{
-			System.err.println("Item number is invalid\n");
+			System.err.println("Item index is invalid\n");
 			return false;
 		}
 		
 		Item searchedItem = items.get( index );
+		if( searchedItem instanceof IWeapon )
+			if( ( (IWeapon) searchedItem ).attack( targetEntity ) )
+				System.out.println( "Hit enemy with " + ( (IWeapon) searchedItem ).getAttackDamage() + "\tEnemy live: " + targetEntity.getHealth() );
+		else if( searchedItem instanceof IUsable )
+			if( ( (IUsable) searchedItem ).useItem( targetEntity ) )
+				System.out.println( "Used item " + searchedItem.getName() + " with success!" );
+		
 		return true;
 	}
 	
@@ -165,5 +189,76 @@ public class Player extends Entity {
 	{
 		return items.isEmpty() ? null : items.get( items.size() - 1 );
 	}
+	
+	/**
+	 * Prints all items in the inventory of the player to system.out
+	 */
+	public void printInventoryItems()
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append("List of items in your inventory:\n");
+		sb.append("Index\t\tName\t\tDescription\n");
+		sb.append("--------------------------------------------------\n");
+		sb.append( 
+				items.stream()
+				.map( i -> items.indexOf( i ) + "\t\t" + i.getName() + "\t\t" + i.getDescription() )
+				.collect( Collectors.joining( "\n" ) ) 
+		);
+		sb.append("\n--------------------------------------------------");
+		
+		System.out.println( sb.toString() );
+	}
+	
+	/**
+	 * Prints all weapons in the inventory of the player to system.out
+	 */
+	public void printWeaponsInInventory()
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append("List of weapons in your inventory:\n");
+		sb.append("Player base damage: " + attackDamage + "\n");
+		sb.append("Index\t\tName\t\tDescription\t\tDamage\n");
+		sb.append("--------------------------------------------------------------\n");
+		
+		sb.append(
+				items.stream().filter( i -> i instanceof IWeapon )
+				.map( i -> items.indexOf( i ) + "\t\t" + i.getName() + "\t\t" + i.getDescription() + 
+						   "\t\t" + ( (IWeapon) i ).getAttackDamage() )
+				.collect( Collectors.joining( "\n", "", "\n" ) )
+		);
+		
+		sb.append("--------------------------------------------------------------");
+		System.out.println( sb.toString() );
+	}
+	
+	/**
+	 * Prints all usables in the inventory of the player to system.out
+	 */
+	public void printUsablesInInventory()
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append("List of usables in your inventory:\n");
+		sb.append("Index\t\tName\t\tDescription\t\tUses\n");
+		sb.append("--------------------------------------------------------------\n");
+		
+		sb.append(
+				items.stream().filter( i -> i instanceof IUsable )
+				.map( i -> items.indexOf( i ) + "\t\t" + i.getName() + "\t\t" + i.getDescription() + 
+						   "\t\t" + ( (IUsable) i ).getNumberOfUses() )
+				.collect( Collectors.joining( "\n", "", "\n" ) )
+		);
+		
+		sb.append("--------------------------------------------------------------");
+		System.out.println( sb.toString() );
+	}
+
+
+	/**
+	 * If the player dies the game is over.
+	 * But this is also the abort condition for the game loop therefore we don't have
+	 * to do anything here.
+	 */
+	@Override
+	public void onDeath() {}
     
 }

@@ -64,6 +64,11 @@ public abstract class Entity {
 	public abstract void handleAttack( int damage );
 	
 	/**
+	 * This method gets called in the case that an entity dies (aka the health is smaller equal 0).
+	 */
+	public abstract void onDeath();
+	
+	/**
 	 * Picks up the given item from the current location.
 	 * This method also updates the references in the item itself.
 	 * 
@@ -80,6 +85,21 @@ public abstract class Entity {
 	public int getHealth() 
 	{
 		return health;
+	}
+	
+	/**
+	 * Sets the new health. If the health is smaller or equal to 0
+	 * the die method gets called.
+	 * 
+	 * @param health
+	 * 		The new health of the entity.
+	 */
+	protected void setHealth( int health )
+	{
+		if( health <= 0 )
+			onDeath();
+		
+		this.health = health;
 	}
 
 	public int getAttackDamage() 

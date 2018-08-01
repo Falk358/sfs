@@ -17,4 +17,9 @@ public interface IWeapon {
 	 */
 	public boolean attack( Entity targetEntity );
 	
+	/**
+	 * @return
+	 * 		The damage of the weapon.
+	 */
+	public int getAttackDamage();
 }

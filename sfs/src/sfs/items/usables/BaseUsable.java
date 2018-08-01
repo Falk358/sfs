@@ -93,6 +93,7 @@ public abstract class BaseUsable extends Item implements IUsable {
 	 */
 	protected abstract boolean doItemAction( Entity targetEntity );
 
+	@Override
 	public int getNumberOfUses() 
 	{
 		return numberOfUses;

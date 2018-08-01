@@ -50,29 +50,12 @@ public class Tile {
         //checks for string written into room_info and adds it into a buffer string
         String room_info_buff=room_info;
         room_info_buff=room_info_buff+"\nThere are paths in the following directions:";
-        //if condition checking whether adjacent tiles are empty via boolean condition
-        if(tile_north!=null)
-        {
-            //if tile is adjacent, adds a string to the buffer string displaying a direction in which a tile has been confirmed
-            room_info_buff=room_info_buff+" NORTH";
-        }
-        if(tile_east!=null)
-        {
-            room_info_buff=room_info_buff+" EAST";
-        }
-        if(tile_south!=null)
-        {
-            room_info_buff=room_info_buff+" SOUTH";
-        }
-        if(tile_west!=null)
-        {
-            room_info_buff=room_info_buff+" WEST";
-        }
+        room_info_buff += getPossibleDirections().stream().collect( Collectors.joining( " ", " ", "\n" ) );
         
         if( itemsOnTile.isEmpty() )
-        	room_info_buff += "\nThere doesn't seem to be anything interesting.";
+        	room_info_buff += "There doesn't seem to be anything interesting.";
         else
-        	room_info_buff += "\nThe following items are on this tile:\n" + itemsOnTile.stream().map(Item::getName).collect( Collectors.joining( "\n" ) );
+        	room_info_buff += "The following items are on this tile:\n" + itemsOnTile.stream().map(Item::getName).collect( Collectors.joining( "\n" ) );
         
         System.out.println(room_info_buff);
     }
@@ -151,5 +134,21 @@ public class Tile {
     {
     	if( itemsOnTile.contains( item ) )
     		itemsOnTile.remove( item );
+    }
+    
+    public List<String> getPossibleDirections()	
+    {
+    	List<String> possibleDirections = new ArrayList<String>( 4 );
+    	//if condition checking whether adjacent tiles are empty via boolean condition
+        if(tile_north!=null)
+        	possibleDirections.add( "NORTH" );
+        if(tile_east!=null)
+        	possibleDirections.add( "EAST" );
+        if(tile_south!=null)
+        	possibleDirections.add( "SOUTH" );
+        if(tile_west!=null)
+        	possibleDirections.add( "WEST" );
+        
+        return possibleDirections;
     }
 }

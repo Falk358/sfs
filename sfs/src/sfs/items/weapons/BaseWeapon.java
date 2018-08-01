@@ -26,7 +26,7 @@ public class BaseWeapon extends Item implements IWeapon {
 	 */
 	public BaseWeapon( int attackDamage, Entity owner )
 	{
-		this( attackDamage, "No name", "No description available", owner );
+		this( attackDamage, "Weapon name", "No description available", owner );
 	}
 	
 	/**
@@ -75,5 +75,11 @@ public class BaseWeapon extends Item implements IWeapon {
 	protected void setAttackDamage( int attackDamage )
 	{
 		this.attackDamage = ( attackDamage >= 0 ) ? attackDamage : 0;
+	}
+
+	@Override
+	public int getAttackDamage() 
+	{
+		return attackDamage;
 	}
 }
