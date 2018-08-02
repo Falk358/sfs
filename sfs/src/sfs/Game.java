@@ -5,6 +5,7 @@
  */
 package sfs;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
@@ -14,6 +15,10 @@ import org.naturalcli.ICommandExecutor;
 import org.naturalcli.InvalidSyntaxException;
 import org.naturalcli.NaturalCLI;
 import org.naturalcli.ParseResult;
+
+import sfs.encounters.Encounters;
+import sfs.entities.Player;
+import sfs.items.Item;
 
 /**
  *
@@ -28,8 +33,7 @@ public class Game {
     public Game(Player player)
     {
         this.player=player;
-        Command goCommand;
-        Command inspectCommand;
+        Command goCommand, inspectCommand, pickUpCommand, inventoryCommand, weapons, usables;
         try
         {
             /*initialize Commands with help messages and functionality and add them to the set of commands*/
@@ -66,14 +70,39 @@ public class Game {
                          {
                              //creation of buffer Tile variable which saves the details of current tile and then uses the printRoomInfo command to display room info
                              Tile myTile;
-                             myTile=player.getCurrent_tile();
+                             myTile=player.getLocation();
                              myTile.printRoomInfo();
                          }
                      });
+             
+             pickUpCommand = new Command("pickup", "command to pick up the first item from the tile the player is standing at.", 
+            		 					r -> {
+            		 						if( player.pickUpItem() )
+            		 						{
+            		 							/* the just picked up item. Short naming due to more readable next line. */
+            		 							Item i = player.getLastItem();
+            		 							System.out.println( "Successfully picked up " + i.getName() + "!\n" + i.getDescription() );
+            		 						}
+            		 						else
+            		 						{
+            		 							System.err.println( "There is no more item on this tile\n" );
+            		 						}
+            		 					} );
+             
+             inventoryCommand = new Command("inventory", "commnad to look at the items in your inventory", 
+            		 r -> player.printInventoryItems()
+            		 );
+             
+             weapons = new Command( "weapons", "shows all weapons in your inventory", 
+ 					r -> player.printWeaponsInInventory()
+ 			 );
+ 			
+ 			 usables = new Command( "usables", "shows all useables in your inventory",
+ 					r -> player.printUsablesInInventory()
+ 			 );
                      
              // add the command goCommand to the total list of commands
-             cs.add(goCommand);
-             cs.add(inspectCommand);
+             Collections.addAll( cs, goCommand, inspectCommand, pickUpCommand, inventoryCommand, weapons, usables);
         }
         catch (InvalidSyntaxException e)
         {
@@ -88,8 +117,8 @@ public class Game {
         // creates the executor and scanner to take input from command line an interpret it
         NaturalCLI natcli =new NaturalCLI(cs);
         Scanner scanner =new Scanner(System.in);
-        while (true)
-        {
+        while( player.getHealth() > 0 )
+        {	
             // retrieve next argument entered by user
             String arg= scanner.nextLine();
             try
@@ -97,11 +126,15 @@ public class Game {
                 /*parse the argument and execute the correct code if defined in a Command*/
                 natcli.execute(arg);
             }
-            
             catch (ExecutionException e)
             {
                 System.err.println("command not defined");
             }
+            
+            /* if the player has pending encounters we process them yet. */
+        	if( Encounters.getNumberOfPendingEncounters() > 0 )
+        		for( int i = 0; i < Encounters.getNumberOfPendingEncounters(); i++ )
+        			Encounters.popFirstEncounter().start();
             
         }
     }
