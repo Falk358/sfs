@@ -24,16 +24,20 @@ public class Encounter {
 	public void start()
 	{
 		System.out.println("Starting encounter between " + entity1 + " and " + entity2);
+		boolean onSameTile = entity1.getLocation().equals( entity2.getLocation() );
 		
-		for( int turn = 0; entity1.getHealth() > 0 && entity2.getHealth() > 0; turn++ )
+		for( int turn = 0; entity1.getHealth() > 0 && entity2.getHealth() > 0 && onSameTile; turn++ )
 		{
 			if( turn % 2 == 0 )
 				doEntity1Move();
 			else
 				doEntity2Move();
+
+			onSameTile = entity1.getLocation().equals( entity2.getLocation() );
 		}
 		
-		System.out.println( ( entity1.getHealth() > 0 ? entity1 : entity2 ) + " won the battle!");
+		if( onSameTile )
+			System.out.println( ( entity1.getHealth() > 0 ? entity1 : entity2 ) + " won the battle!");
 	}
 	
 	protected void doEntity1Move()

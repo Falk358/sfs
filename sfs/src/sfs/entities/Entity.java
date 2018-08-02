@@ -29,7 +29,7 @@ public abstract class Entity {
 	/**
 	 * The health of the entity.
 	 */
-	protected int health;
+	private int health;
 	
 	/**
 	 * The attackDamage of the entity. (without item)
@@ -39,7 +39,7 @@ public abstract class Entity {
 	/**
 	 * The location of the entity.
 	 */
-	protected Tile location;
+	private Tile location;
 	
 	/**
 	 * The list of all items the entity has.
@@ -78,11 +78,22 @@ public abstract class Entity {
 	public void pickUpItem( Item item )
 	{
 		location.removeItemFromTile( item );
+		addItem( item );
+	}
+	
+	/**
+	 * Adds one item to the inventory items and sets the owner properly.
+	 * 
+	 * @param item
+	 * 		The item that should get added to the inventory.
+	 */
+	public void addItem( Item item )
+	{
 		items.add( item );
 		item.setOwner( this );
 	}
 
-	public int getHealth() 
+	public final int getHealth() 
 	{
 		return health;
 	}
@@ -94,7 +105,7 @@ public abstract class Entity {
 	 * @param health
 	 * 		The new health of the entity.
 	 */
-	protected void setHealth( int health )
+	protected final void setHealth( int health )
 	{
 		if( health <= 0 )
 			onDeath();
@@ -107,7 +118,7 @@ public abstract class Entity {
 		return attackDamage;
 	}
 
-	public Tile getLocation() 
+	public final Tile getLocation() 
 	{
 		return location;
 	}
@@ -118,7 +129,7 @@ public abstract class Entity {
 	 * @param location
 	 * 		The new location.
 	 */
-	protected void setLocation(Tile location)
+	protected final void setLocation(Tile location)
 	{
 		this.location.removeEntityFromTile( this );
 		this.location = location;
