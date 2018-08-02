@@ -5,16 +5,28 @@
  */
 package sfs;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import sfs.entities.Entity;
+import sfs.items.Item;
+
 /**
  *
  * @author Max
  */
 public class Tile {
     
-    public Tile(String room_info)
-    {
-        this.room_info=room_info;
-    }
+    /**
+     * List of all entities on that tile.
+     */
+    private List<Entity> entitiesOnTile;
+    
+    /**
+     * List of all items on that tile.
+     */
+    private List<Item> itemsOnTile;
     
     private String room_info; //information to be displayed when inspecting the room
     
@@ -24,30 +36,27 @@ public class Tile {
     private Tile tile_west;
     private Tile tile_east;
     
+
+    public Tile(String room_info)
+    {
+        this.room_info=room_info;
+        this.entitiesOnTile = new ArrayList<Entity>();
+        this.itemsOnTile = new ArrayList<Item>();
+    }
+    
     //checks for room_info and adjacent Tiles; then prints RoomInfo and possible directions to move to
     public void printRoomInfo()
     {
         //checks for string written into room_info and adds it into a buffer string
         String room_info_buff=room_info;
         room_info_buff=room_info_buff+"\nThere are paths in the following directions:";
-        //if condition checking whether adjacent tiles are empty via boolean condition
-        if(tile_north!=null)
-        {
-            //if tile is adjacent, adds a string to the buffer string displaying a direction in which a tile has been confirmed
-            room_info_buff=room_info_buff+" NORTH";
-        }
-        if(tile_east!=null)
-        {
-            room_info_buff=room_info_buff+" EAST";
-        }
-        if(tile_south!=null)
-        {
-            room_info_buff=room_info_buff+" SOUTH";
-        }
-        if(tile_west!=null)
-        {
-            room_info_buff=room_info_buff+" WEST";
-        }
+        room_info_buff += getPossibleDirections().stream().collect( Collectors.joining( " ", " ", "\n" ) );
+        
+        if( itemsOnTile.isEmpty() )
+        	room_info_buff += "There doesn't seem to be anything interesting.";
+        else
+        	room_info_buff += "The following items are on this tile:\n" + itemsOnTile.stream().map(Item::getName).collect( Collectors.joining( "\n" ) );
+        
         System.out.println(room_info_buff);
     }
     
@@ -95,5 +104,51 @@ public class Tile {
         this.tile_east = tile_east;
     }
     
+    public void removeEntityFromTile( Entity entity )
+    {
+    	if( entitiesOnTile.contains( entity ) )
+    		entitiesOnTile.remove( entity );
+    }
     
+    public void addEntityToTile( Entity entity )
+    {
+    	entitiesOnTile.add( entity );
+    }
+    
+    public List<Entity> getAllEntitesFromTile()
+    {
+    	return entitiesOnTile;
+    }
+    
+    public List<Item> getAllItemsFromTile()
+    {
+    	return itemsOnTile;
+    }
+    
+    public void addItemToTile( Item item )
+    {
+    	itemsOnTile.add( item );
+    }
+    
+    public void removeItemFromTile( Item item )
+    {
+    	if( itemsOnTile.contains( item ) )
+    		itemsOnTile.remove( item );
+    }
+    
+    public List<String> getPossibleDirections()	
+    {
+    	List<String> possibleDirections = new ArrayList<String>( 4 );
+    	//if condition checking whether adjacent tiles are empty via boolean condition
+        if(tile_north!=null)
+        	possibleDirections.add( "NORTH" );
+        if(tile_east!=null)
+        	possibleDirections.add( "EAST" );
+        if(tile_south!=null)
+        	possibleDirections.add( "SOUTH" );
+        if(tile_west!=null)
+        	possibleDirections.add( "WEST" );
+        
+        return possibleDirections;
+    }
 }
