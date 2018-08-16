@@ -69,7 +69,7 @@ public class PlayerEncounter extends Encounter {
 						Random rand = new Random();
 						Direction direction = Direction.valueOf( pd.get( rand.nextInt( pd.size() ) ) );
 						
-						
+						successfulCommand = true;
 						if( ( (Player) entity1 ).changeRoom( direction ) )
 							System.out.println( "You successfully escaped to the " + direction.toString() );
 						else
@@ -97,7 +97,7 @@ public class PlayerEncounter extends Encounter {
 					r -> ( (Player) entity1 ).printInventoryItems()
            	);
 			
-			useItem = new Command( "use <index:int> <target:string>", "command to use an item. If the item is a weapon you attack with it.\n"
+			useItem = new Command( "use <index:string> <target:string>", "command to use an item. If the item is a weapon you attack with it.\n"
 					+ "If it is a usable item it gets used.\nThe syntax is use <index:int> <target:string>. Where index is the index of the item in your inventory.\n"
 					+ "You can find the indices using the weapons, usables or inventory commands. The second argument is the target of the item.\n"
 					+ "Valid targets are \"me\" or \"other\"\n",
@@ -105,7 +105,7 @@ public class PlayerEncounter extends Encounter {
 					{
 						try
 						{
-							int index = (int) r.getParameterValue(0);
+							int index = Integer.parseInt( r.getParameterValue(0).toString() );
 							String target = r.getParameterValue( 1 ).toString();
 							
 							if( !target.equalsIgnoreCase( "me" ) && !target.equalsIgnoreCase( "other" ) )
@@ -125,9 +125,9 @@ public class PlayerEncounter extends Encounter {
 							
 							successfulCommand = true;
 						}
-						catch( Exception e )
+						catch( NumberFormatException e )
 						{
-							e.printStackTrace();
+							System.err.println( "The index was not an integer!" );
 						}
 					}
 			);

@@ -58,10 +58,12 @@ public class BaseEnemy extends Entity {
 		if( !items.isEmpty() )
 		{
 			Random rand = new Random();
-			location.addItemToTile( items.get( rand.nextInt( items.size() ) ) );
+			Item drop = items.get( rand.nextInt( items.size() ) );
+			drop.setOwner( null );
+			getLocation().addItemToTile( drop );
 		}
 		
-		location.removeEntityFromTile( this );
+		getLocation().removeEntityFromTile( this );
 	}
 
 }

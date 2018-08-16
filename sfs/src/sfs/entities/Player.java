@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package sfs.entities;
-import static org.hamcrest.CoreMatchers.instanceOf;
-
 import java.util.stream.Collectors;
 
 import sfs.Direction;
@@ -34,9 +32,9 @@ public class Player extends Entity {
         switch(dir)
         {
             case NORTH:
-                if (this.location.getTile_north()!=null)
+                if (getLocation().getTile_north()!=null)
                 {
-                    setLocation( this.location.getTile_north() );
+                    move( getLocation().getTile_north() );
                     return true;
                 }
                 else
@@ -46,9 +44,9 @@ public class Player extends Entity {
                 }
                 
             case SOUTH:
-                if (this.location.getTile_south()!=null)
+                if (getLocation().getTile_south()!=null)
                 {
-                    setLocation( this.location.getTile_south() );
+                    move( getLocation().getTile_south() );
                     return true;
                 }
                 else
@@ -58,9 +56,9 @@ public class Player extends Entity {
                 }
                
             case WEST:
-                if (this.location.getTile_west()!=null)
+                if (getLocation().getTile_west()!=null)
                 {
-                    setLocation( this.location.getTile_west() );
+                    move( getLocation().getTile_west() );
                     return true;
                 }
                 else
@@ -70,9 +68,9 @@ public class Player extends Entity {
                 }
               
             case EAST: 
-                if (this.location.getTile_east()!=null)
+                if (getLocation().getTile_east()!=null)
                 {
-                    setLocation( this.location.getTile_east() );
+                    move( getLocation().getTile_east() );
                     return true;
                 }
                 else
@@ -90,24 +88,18 @@ public class Player extends Entity {
     
     private void checkForEncounters()
     {
-    	if( this.location.getAllEntitesFromTile().size() > 1 )
+    	if( getLocation().getAllEntitesFromTile().size() > 1 )
     	{
     		System.err.println("There is another entity on this tile");
-    		for( Entity e : location.getAllEntitesFromTile() )
+    		for( Entity e : getLocation().getAllEntitesFromTile() )
     			if( !e.equals( this ) )
     				Encounters.addEncounter( this, e );
     	}
     }
-    
-    //getters and setters
-    public Tile getlocation() {
-        return location;
-    }
 
-    @Override
-    public void setLocation(Tile location) 
+    public void move(Tile location) 
     {
-    	if( this.location != location )
+    	if( !getLocation().equals( location ) )
     	{
     		super.setLocation( location );
     		checkForEncounters();
@@ -147,7 +139,7 @@ public class Player extends Entity {
 	 */
 	public boolean useItem( int index, Entity targetEntity )
 	{
-		if( items.size() >= index || index < 0 )
+		if( index >= items.size() || index < 0 )
 		{
 			System.err.println("Item index is invalid\n");
 			return false;
@@ -172,10 +164,10 @@ public class Player extends Entity {
 	 */
 	public boolean pickUpItem()
 	{
-		if( location.getAllItemsFromTile().isEmpty() )
+		if( getLocation().getAllItemsFromTile().isEmpty() )
 			return false;
 		
-		Item pickedUpItem = location.getAllItemsFromTile().get( 0 );
+		Item pickedUpItem = getLocation().getAllItemsFromTile().get( 0 );
 		super.pickUpItem( pickedUpItem );
 		
 		return true;

@@ -31,7 +31,7 @@ public class Main {
         tile3.setTile_west(tile1);
         Player player =new Player(tile1);
         BaseEnemy be = new BaseEnemy(100, 20, tile3);
-        BaseWeapon bw = new BaseWeapon( 1, null );
+        BaseWeapon bw = new BaseWeapon( 50, null );
         tile2.addItemToTile( bw );
         Game game=new Game(player);
         game.start();
