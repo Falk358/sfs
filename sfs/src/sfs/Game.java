@@ -5,6 +5,8 @@
  */
 package sfs;
 
+import sfs.map.Direction;
+import sfs.map.Tile;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Scanner;

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import sfs.Tile;
+import sfs.map.Tile;
 import sfs.entities.Entity;
 import sfs.items.Item;
 import sfs.items.interfaces.IWeapon;

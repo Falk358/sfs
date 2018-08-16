@@ -12,8 +12,8 @@ import org.naturalcli.ExecutionException;
 import org.naturalcli.InvalidSyntaxException;
 import org.naturalcli.NaturalCLI;
 
-import sfs.Direction;
-import sfs.Tile;
+import sfs.map.Direction;
+import sfs.map.Tile;
 import sfs.entities.Entity;
 import sfs.entities.Player;
 

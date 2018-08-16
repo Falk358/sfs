@@ -6,8 +6,8 @@
 package sfs.entities;
 import java.util.stream.Collectors;
 
-import sfs.Direction;
-import sfs.Tile;
+import sfs.map.Direction;
+import sfs.map.Tile;
 import sfs.encounters.Encounters;
 import sfs.items.Item;
 import sfs.items.interfaces.IUsable;

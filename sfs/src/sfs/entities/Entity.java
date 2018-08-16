@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sfs.Init;
-import sfs.Tile;
+import sfs.map.Tile;
 import sfs.items.Item;
 
 /**

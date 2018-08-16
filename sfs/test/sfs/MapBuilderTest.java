@@ -5,6 +5,8 @@
  */
 package sfs;
 
+import sfs.map.MapBuilder;
+import sfs.map.Tile;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
