@@ -29,11 +29,12 @@ public class Game {
     private Set<Command> cs = new HashSet<Command>();
     
     private Player player;
+    private String commandlist=""; // initialized after commands have been created and added to collection
     
     public Game(Player player)
     {
         this.player=player;
-        Command goCommand, inspectCommand, pickUpCommand, inventoryCommand, weapons, usables;
+        Command goCommand, inspectCommand, pickUpCommand, inventoryCommand, weapons, usables, helpCommand;
         try
         {
             /*initialize Commands with help messages and functionality and add them to the set of commands*/
@@ -63,7 +64,7 @@ public class Game {
                           System.out.println("going " + result);
                   }
                 });
-             inspectCommand=new Command("inspect", "command to inspect Tile the player is on",
+             inspectCommand=new Command("inspect", "command to inspect Tile the player is on, returns information on",
                      new ICommandExecutor ()
                      {
                          public void execute(ParseResult pr)
@@ -100,14 +101,45 @@ public class Game {
  			 usables = new Command( "usables", "shows all useables in your inventory",
  					r -> player.printUsablesInInventory()
  			 );
+            
                      
              // add the command goCommand to the total list of commands
              Collections.addAll( cs, goCommand, inspectCommand, pickUpCommand, inventoryCommand, weapons, usables);
+            for (Command command: cs)
+            {
+                commandlist= commandlist + command.getSyntax().toString()+ ", "; // fill commandlist with the names of commands
+            }
         }
         catch (InvalidSyntaxException e)
         {
                 e.printStackTrace();
         }
+        /*try
+        {
+            helpCommand = new Command("help", "takes commandname as parameter, displays help message for the given command", 
+                    new ICommandExecutor ()
+                     {
+                         public void execute(ParseResult pr)
+                         {
+                             String parameter = (String) pr.getParameterValue(0);
+                            for (Command command: cs)
+                            {
+                                if (command.getSyntax().equals(parameter) || parameter.equals("go"))
+                                {
+                                    if (parameter.equals("go"))
+                                        System.out.println(goCommand.getHelp());
+                                    else
+                                        System.out.println(command.getHelp());
+                                }
+                            }
+                         }
+                     });
+            Collections.addAll(cs, helpCommand);
+        }
+        catch ()
+        {
+            
+        }*/
    
     }
     
@@ -117,6 +149,9 @@ public class Game {
         // creates the executor and scanner to take input from command line an interpret it
         NaturalCLI natcli =new NaturalCLI(cs);
         Scanner scanner =new Scanner(System.in);
+        
+        
+        System.out.println("Welcome to our text-based-adventure game. You have the following commands at your disposal: " + commandlist);
         while( player.getHealth() > 0 )
         {	
             // retrieve next argument entered by user
